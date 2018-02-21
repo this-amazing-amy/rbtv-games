@@ -1,0 +1,25 @@
+{
+  "name": "filmfights",
+  "version": "0.0.1",
+  "description": "Small game supplement app for FilmFights",
+  "main": "handler.js",
+  "scripts": {
+    "deploy": "serverless deploy -v",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PygmalionPolymorph/filmfights.git"
+  },
+  "keywords": [
+    "FilmFights",
+    "RBTV",
+    "Movies"
+  ],
+  "author": "PygmalionPolymorph",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PygmalionPolymorph/filmfights/issues"
+  },
+  "homepage": "https://github.com/PygmalionPolymorph/filmfights#readme"
+}
