@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const DotenvWebpackPlugin = require('dotenv-webpack');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -14,6 +15,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   plugins: [
+    new FaviconsWebpackPlugin(path.resolve(__dirname, 'src/images/logo_sm.png')),
     new DotenvWebpackPlugin(),
     new HTMLWebpackPlugin({
       title: 'FilmFights',
