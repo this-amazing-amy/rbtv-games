@@ -1,13 +1,3 @@
-const express = require('express');
-require('dotenv').config();
+import app from './view';
 
-
-const app = express();
-
-app.get('*', (req, res) => {
-  res.send('Filmfights!');
-});
-
-app.listen(process.env.PORT, () => {
-  console.log(`Listening!`);
-});
+app();
