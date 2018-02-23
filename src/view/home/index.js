@@ -2,11 +2,29 @@ import m from 'mithril';
 import { stream, on, combine } from 'flyd';
 import film from '../../images/film.png';
 import fights from '../../images/fights.png';
+
+import bell from '../../sounds/bell.mp3';
+import ticktock from '../../sounds/ticktock.mp3';
+import buzzer from '../../sounds/buzzer.mp3';
+import airhorn from '../../sounds/airhorn.mp3';
+
 import '../style.less';
+
+const Bell = new Audio(bell);
+const TickTock = new Audio(ticktock);
+TickTock.loop = true;
+const Buzzer = new Audio(buzzer);
+const Airhorn = new Audio(airhorn);
 
 const time = stream(0);
 const isRunning = stream(false);
 const interval = stream(null);
+
+document.addEventListener('keyup', (e) => {
+  if (e.keyCode === 187) {
+    Airhorn.play();
+  }
+});
 
 const decrementTime = () => {
   time(time() - 1);
@@ -16,11 +34,12 @@ const decrementTime = () => {
 const stop = () => {
     clearInterval(interval());
     interval(null);
+    TickTock.pause();
 };
 
 const done = () => {
   if (interval()) {
-    alert('zero');
+    Buzzer.play();
     stop();
   }
 };
@@ -30,6 +49,8 @@ on((shouldRun) => { if (!shouldRun) { stop(); } }, isRunning);
 combine((running, t) => {
   if (running() && t() > 0 && !interval()) {
     interval(setInterval(decrementTime, 1000));
+    Bell.play();
+    TickTock.play();
   }
 }, [isRunning, time]);
 

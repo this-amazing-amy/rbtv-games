@@ -48,6 +48,15 @@ module.exports = {
         ],
       },
       {
+        test: /\.mp3/,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            name: 'sounds/[hash]-[name].[ext]',
+          },
+        }],
+      },
+      {
         test: /\.(png|jp(e*)g|svg)$/,
         use: [{
           loader: 'url-loader',
