@@ -60,6 +60,10 @@ const MinuteButton = (minutes) => m('button.minute-button', {
   onclick: () => { time(minutes * 60); },
 }, `${minutes} Minute${minutes > 1 ? 'n' : ''}`);
 
+const SecondButton = (seconds) => m('button.minute-button', {
+  onclick: () => { time(seconds); },
+}, `${seconds} Sekunde${seconds > 1 ? 'n' : ''}`);
+
 export default {
   view: () => {
     const seconds = padSeconds(time());
@@ -82,7 +86,8 @@ export default {
           m('button.pause', { onclick: () => { isRunning(false); time(0); }, }, m('.material-icons', 'stop')),
         ]),
         m('.minute-buttons', [
-          MinuteButton(1), MinuteButton(2), MinuteButton(5),
+          SecondButton(15), SecondButton(30),
+          MinuteButton(1), MinuteButton(2), MinuteButton(8),
         ]),
       ]),
       m('.media', [
