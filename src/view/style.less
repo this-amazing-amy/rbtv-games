@@ -1,182 +1,21 @@
-@media screen and (max-width: 768px) {
+body {
+  font-family: sans-serif;
+  font-size: 18px;
+  margin: 0;
+}
+
+@media screen and (min-width: 768px) {
   body {
-    font-size: 18px;
+    font-size: 14px;
   }
 }
 
-body {
-  background-image: url(../images/bg.jpg);
-  background-color: #1f1a1e;
-  font-family: sans-serif;
-  font-size: 14px;
-    margin: 0;
-}
-
-#app {
+.subapp {
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
-}
-
-.film, .fights {
-  height: 6em;
-}
-
-.film {
-  z-index: 1;
-  transform: translateX(66%);
-  animation: 1s .5s ease film forwards;
-}
-
-.fights {
-  transform: translateX(-74%);
-  animation: 1s .5s ease fights forwards;
-}
-
-@keyframes fights {
-  from {
-    transform: translateX(-74%);
-  }
-  to {
-    transform: translateX(-9%);
-  }
-}
-
-@keyframes film {
-  from {
-    transform: translateX(66%);
-  }
-  to {
-    transform: translateX(12%);
-  }
-}
-
-.time-container {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  left: 2.8em;
-}
-
-.time__seconds.seconds--yellow {
-  color: #e0982f;
-}
-
-.time__seconds {
-  color: #a82d37;
-  font-size: inherit;
-  width: inherit;
-  text-align: center;
-  font-weight: bold;
-  font-style: italic;
-
-  &:focus {
-    outline: none;
-    color: white;
-  }
-}
-
-
-.time {
-  position: relative;
-  display: block;
-  width: 3em;
-  margin: 0.5em 0;
-  font-size: 5em;
-  padding: .2em;
-
-  &:before {
-    content: '';
-    position: absolute;
-    width: 158%;
-    height: 350%;
-    left: -31%;
-    top: -118%;
-    z-index: -2;
-    background: url(../images/star.png);
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  &:after {
-    content: '';
-    position: absolute;
-    background: #111;
-    height: 100%;
-    left: 0;
-    top: 0;
-    width: 100%;
-    transform: skewX(-15deg);
-    z-index: -1;
-  }
-}
-
-.time__seconds {
-  transition: color .2s ease;
-}
-
-button, input {
-  border: 0;
-  background: #111;
-  color: white;
-  border-radius: .2em;
-}
-
-button {
-  padding: .5em;
-  cursor: pointer;
-  transition: all .2s ease;
-
-  &:focus {
-    outline: none;
-  }
-
-  &:hover {
-    transform: scale(1.03)
-  }
-
-  &:active {
-    transform: scale(0.98);
-    background-color: #141414;
-  }
-}
-
-button + button {
-  margin-left: .5em;
-}
-
-.input-time {
-  margin: 1em auto;
-  padding: 1em .5em;
-  display: block;
-}
-
-.input-time:focus {
-  border-bottom: 2px solid #f3f3f3;
-}
-
-.inputs {
-  width: 50vw;
-  margin: 0 auto;
-  text-align: center
-}
-
-.minute-buttons {
-  margin-top: 1em;
-}
-
-.play, .pause {
-  font-size: 2em;
-  display: inline-block;
-  width: 4em;
-  margin: 0 auto;
-  & + & {
-    margin-left: .5em;
-  }
 }
 

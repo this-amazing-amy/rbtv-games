@@ -8,7 +8,7 @@ import ticktock from '../../sounds/ticktock.mp3';
 import buzzer from '../../sounds/buzzer.mp3';
 import airhorn from '../../sounds/airhorn.mp3';
 
-import '../style.less';
+import './index.less';
 
 const Bell = new Audio(bell);
 const TickTock = new Audio(ticktock);
@@ -68,7 +68,7 @@ export default {
   view: () => {
     const seconds = padSeconds(time());
 
-    return [
+    return m('.subapp.filmfights', [
       m('.time-container', [
         m('img.film', { src: film }),
         m('div.time', [
@@ -93,6 +93,6 @@ export default {
       m('.media', [
         m('audio'),
       ]),
-    ];
+    ]);
   },
 };
