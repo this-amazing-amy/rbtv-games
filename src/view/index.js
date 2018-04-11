@@ -1,4 +1,5 @@
 import m from 'mithril';
+import './style.less';
 
 const route = (id) => () => new Promise((resolve) => {
   import(`./${id}`)
@@ -9,10 +10,10 @@ const route = (id) => () => new Promise((resolve) => {
 const app = () => {
   m.route(document.querySelector('#app'), '/', {
     '/': {
-      onmatch: route('home'),
+      onmatch: route('filmfights'),
     },
-    '/manage': {
-      onmatch: route('manage'),
+    '/verflixxteklixx': {
+      onmatch: route('verflixxteklixx'),
     },
   });
 };
