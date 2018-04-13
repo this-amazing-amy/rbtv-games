@@ -18,7 +18,9 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new FaviconsWebpackPlugin(path.resolve(__dirname, 'src/images/logo_sm.png')),
-    new DotenvWebpackPlugin(),
+    new DotenvWebpackPlugin({
+      systemvars: true
+    }),
     new HTMLWebpackPlugin({
       title: 'FilmFights',
       template: 'src/index.html',
