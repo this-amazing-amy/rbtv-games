@@ -54,7 +54,6 @@ export default {
     const shouldShowVideo = video();
 
     return m('.subapp.verflixxteklixx', [
-      errorFetching(),
       shouldShowVideo && renderVideo(video()),
       shouldShowViews && renderViews(views()),
       shouldShowRevealButton && renderRevealButton(),

@@ -8,7 +8,7 @@ const changeEstimate = player => (e) => {
 export default {
   view: ({ attrs: { player }}) => m('.player', [
     m('.player__name', player.name),
-    m('input[type="number"]', { onchange: changeEstimate(player) }),
+    m('input[type="number"]', { onchange: changeEstimate(player), value: player.estimate }),
     m('.player__score', player.score)
   ]),
 };

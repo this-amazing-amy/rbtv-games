@@ -33,10 +33,19 @@ const renderAddPlayerButton = () => m('button', {
   onclick: startAddingPlayer
 }, '+');
 
+const PlayerNameInput = {
+  oncreate: ({dom}) => {dom.focus();},
+  view: () => m('input', {
+    placeholder: 'Name',
+    onchange: updateNewPlayerName,
+    value: newPlayer().name
+  }),
+}
+
 const renderNewPlayerForm = () => m('form.new-player', {
   onsubmit: submitNewPlayer,
 }, [
-  m('input', { onchange: updateNewPlayerName, value: newPlayer().name}),
+  m(PlayerNameInput),
   m('input[type="submit"]',  '✔')
 ]);
 
