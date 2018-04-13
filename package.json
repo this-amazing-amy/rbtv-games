@@ -4,7 +4,7 @@
   "description": "Small game supplement app for FilmFights",
   "main": "handler.js",
   "scripts": {
-    "start": "npm run build && npm run server & npm run cors",
+    "start": "npm run build && npm run server",
     "build": "webpack",
     "watch": "webpack --watch",
     "server": "node server.js",
