@@ -10,6 +10,9 @@ const route = (id) => () => new Promise((resolve) => {
 const app = () => {
   m.route(document.querySelector('#app'), '/', {
     '/': {
+      onmatch: route('portal'),
+    },
+    '/filmfights': {
       onmatch: route('filmfights'),
     },
     '/verflixxteklixx': {

@@ -1,0 +1,51 @@
+footer {
+  position: absolute;
+  bottom: 2em;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  text-transform: uppercase;
+}
+
+.footer__link {
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    color: #DB2F6F;
+  }
+}
+
+.portal {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background: url(../../images/portalbg.jpg);
+  background-size: cover;
+}
+
+.portal__a {
+  width: 400px;
+  display: flex;
+  flex-flow: column nowrap;
+  text-align: center;
+  text-decoration: none;
+
+  & + & {
+    margin-left: 3em;
+  }
+}
+
+.portal__image {
+  max-width: 100%;
+  transition: box-shadow .2s ease;
+  border-radius: 3px;
+
+  &:hover {
+    box-shadow: 0 0 100px #DB2F6F;
+  }
+}
+

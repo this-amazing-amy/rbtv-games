@@ -28,6 +28,20 @@ export const updatePlayerEstimate = (player, estimate) => {
   players(newPlayers);
 };
 
+export const updatePlayerName = (player, name) => {
+  const newPlayers = over(playerLens(player), assoc('name', name ? name : randomName()), players());
+  players(newPlayers);
+};
+
+export const randomName = () => {
+	const fragments = [
+    'Willi', 'Wonka', 'Lillo', 'Lollo', 'Paulinger', 'Lars', 'Florentin', 'Paulsen', 'Will', 'Bronko', 'Wonko',
+    'La fuente', 'de la Cortullo'
+  ];
+	const randomFragment = () => fragments[Math.floor(Math.random() * fragments.length)];
+	return `${randomFragment()} ${randomFragment()}`;
+}
+
 export const clearEstimates = () => {
   players(players().map(assoc('estimate', 0)))
 };
@@ -54,5 +68,9 @@ export const addPlayerScore = (player, score) => {
   const newPlayers = over(playerLens(player), over(lensProp('score'), add(score)), players());
   players(newPlayers);
 }
+
+export const removePlayer = (player) => {
+	players(players().filter(p => !(p.name === player.name && p.score === player.score)));
+};
 
 combine(m.redraw, [video, views, players]);
