@@ -36,7 +36,7 @@ export const updatePlayerName = (player, name) => {
 export const randomName = () => {
 	const fragments = [
     'Willi', 'Wonka', 'Lillo', 'Lollo', 'Paulinger', 'Lars', 'Florentin', 'Paulsen', 'Will', 'Bronko', 'Wonko',
-    'La fuente', 'de la Cortullo'
+    'La fuente', 'de la Cortullo', 'Larry', 'Lobster'
   ];
 	const randomFragment = () => fragments[Math.floor(Math.random() * fragments.length)];
 	return `${randomFragment()} ${randomFragment()}`;
