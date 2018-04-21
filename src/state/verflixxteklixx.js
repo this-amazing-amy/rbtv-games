@@ -1,76 +1,65 @@
 import m from 'mithril';
 import { stream, fromPromise, combine, on, chain } from 'flyd';
 import filter from 'flyd/module/filter';
-import { minBy, compose, append, reduce, assoc, over, findIndex, propEq, lensIndex, prop, identity } from 'ramda';
+import { __, pathEq, assocPath, minBy, compose, append, path, lensPath, reduce, assoc, over, findIndex, propEq, lensIndex, prop, lensProp, add, identity, filter as ffilter } from 'ramda';
 
 import { fetchRandomVideo } from '../lib/randomYoutube';
 import { fetchViewCount } from '../lib/youtube-api';
 
+import { players, updatePlayer } from './players';
+
+
+// VIDEOS
+
 export const video = stream('');
-export const views =  filter(identity, video)
+export const views = filter(identity, video)
   .pipe(chain(v => fromPromise(fetchViewCount(v))));
-
-export const players = stream(JSON.parse(localStorage.players || '[]'));
-on(p => localStorage.players = JSON.stringify(p), players);
-
 
 export const newRandomVideo = () => fetchRandomVideo().then(video);
 
 
-const playerLens = player => lensIndex(findIndex(propEq('name', player.name), players()));
+// CONFIGURE DATASTRUCTURE
 
-export const addPlayer = (player) => {
-  players(append(player, players()));
+const estimatePath = ['verflixxteklixx', 'estimate'];
+const scorePath = ['verflixxteklixx', 'score'];
+const fischkartePath = ['verflixxteklixx', 'fischkarte'];
+
+
+// ESTIMATES
+
+export const updatePlayerEstimate = (estimate, player) => {
+  updatePlayer(assocPath(estimatePath, parseInt(estimate, 10)), player);
 };
-
-export const updatePlayerEstimate = (player, estimate) => {
-  const newPlayers = over(playerLens(player), assoc('estimate', parseInt(estimate, 10)), players());
-  players(newPlayers);
-};
-
-export const updatePlayerName = (player, name) => {
-  const newPlayers = over(playerLens(player), assoc('name', name ? name : randomName()), players());
-  players(newPlayers);
-};
-
-export const randomName = () => {
-	const fragments = [
-    'Willi', 'Wonka', 'Lillo', 'Lollo', 'Paulinger', 'Lars', 'Florentin', 'Paulsen', 'Will', 'Bronko', 'Wonko',
-    'La fuente', 'de la Cortullo', 'Larry', 'Lobster'
-  ];
-	const randomFragment = () => fragments[Math.floor(Math.random() * fragments.length)];
-	return `${randomFragment()} ${randomFragment()}`;
-}
 
 export const clearEstimates = () => {
-  players(players().map(assoc('estimate', 0)))
+  players(players().map(assocPath(estimatePath, 0)))
 };
 
-const winners = (players) => {
-  const minimumDelta = reduce(minBy(p => Math.abs(p.estimate - views())), {estimate: Infinity}, players);
-  console.log(minimumDelta);
-  return players.filter(propEq('estimate', minimumDelta.estimate));
+
+// SCORING
+
+const minimumDelta = compose(
+  path(estimatePath),
+  reduce(minBy(p => Math.abs(path(estimatePath, p) - views())), {verflixxteklixx: {estimate: Infinity}})
+);
+
+const winners = players => ffilter(pathEq(estimatePath, minimumDelta(players)), players);
+
+const score = (isGerman, isMultiplicator) => player => {
+    const isExactHit = path(estimatePath, player) === views();
+    const german = isGerman ? 2 : 0;
+    const multiplicator = isMultiplicator ? 2 : 1;
+    const fischkarte = path(fischkartePath, player) ? 2 : 1;
+
+    return isExactHit
+      ? views()
+      : 1 + german * multiplicator * fischkarte;
 };
 
 export const updateWinnerScore = (isGerman, isMultiplicator) => {
+  const getScore = score(isGerman, isMultiplicator);
   winners(players()).forEach(winner => {
-    const isExactHit = winner.estimate === views();
-    console.log(winner.estimate, views());
-    const score = isExactHit ? views()
-      : (1 + (isGerman ? 2 : 0)) * (isMultiplicator ? 2 : 1) * (winner.fischkarte ? 2 : 1);
-
-    const newPlayers = over(playerLens(winner), assoc('score', winner.score + score), players());
-    players(newPlayers);
+    updatePlayer(over(lensPath(scorePath), add(getScore(winner))), winner);
   });
-}
-
-export const addPlayerScore = (player, score) => {
-  const newPlayers = over(playerLens(player), over(lensProp('score'), add(score)), players());
-  players(newPlayers);
-}
-
-export const removePlayer = (player) => {
-	players(players().filter(p => !(p.name === player.name && p.score === player.score)));
 };
 
-combine(m.redraw, [video, views, players]);

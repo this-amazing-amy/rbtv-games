@@ -1,7 +1,8 @@
 import m from 'mithril';
 import { all } from 'ramda';
 import { on, combine, stream } from 'flyd';
-import { randomName, views, video, players, addPlayer, clearEstimates, newRandomVideo, updateWinnerScore } from '../../state/verflixxteklixx';
+import { views, video, clearEstimates, newRandomVideo, updateWinnerScore } from '../../state/verflixxteklixx';
+import { randomName, addPlayer, players, defaultPlayer } from '../../state/players';
 import Player from './player';
 
 import './index.less';
@@ -44,15 +45,7 @@ const renderNextRoundButton = () => m('button.next-round-button', {
 }, 'Nächste Runde');
 
 const renderViews = views => m('span.views', views);
-
 const renderPlayer = player => m(Player, { player });
-
-const defaultPlayer = () => ({
-  name: randomName(),
-  estimate: 0,
-  score: 0,
-  fischkarte: false
-});
 
 const renderAddPlayerButton = () => m('button.add-player-button', {
   onclick: (e) => {
@@ -62,9 +55,13 @@ const renderAddPlayerButton = () => m('button.add-player-button', {
 }, '+');
 
 export default {
-  oninit: () => {
+  oninit: (vnode) => {
+    vnode.state.redraw = combine(m.redraw, [video, views]);
     videoLoading(true);
     newRandomVideo();
+  },
+  onbeforeremove: (vnode) => {
+    vnode.state.redraw.end(true);
   },
   view: () => {
     const shouldShowViews = views() && roundEnded();

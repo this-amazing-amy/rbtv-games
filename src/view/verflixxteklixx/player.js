@@ -1,14 +1,18 @@
 import m from 'mithril';
-import { updatePlayerEstimate, updatePlayerName, removePlayer } from '../../state/verflixxteklixx';
+import { updatePlayerEstimate } from '../../state/verflixxteklixx';
+import { updatePlayerName, removePlayer } from '../../state/players';
 
 const changeEstimate = player => (e) => {
 	if (parseInt(e.target.value, 10)) {
-		updatePlayerEstimate(player, e.target.value);
+		updatePlayerEstimate(e.target.value, player);
 	}
 };
 
 const changeName = player => (e) => {
-	updatePlayerName(player, e.target.value);
+  const name = e.target.value;
+  if (player.name != name) {
+    updatePlayerName(name, player);
+  }
 };
 
 const confirmDeletion = (player) => () => {
@@ -28,12 +32,12 @@ export default {
 			onchange: changeName(player),
 			tabindex: -1
 		}),
-    m('.player__score', player.score),
+    m('.player__score', player.verflixxteklixx.score),
 		m('.player__views-text', 'VIEWS'),
 		m('.player__estimate', [
 			m('input.player__estimate-input', {
 				onchange: changeEstimate(player),
-				value: player.estimate,
+				value: player.verflixxteklixx.estimate,
         tabindex: 1
 			}),
 		]),
