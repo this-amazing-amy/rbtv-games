@@ -1,5 +1,9 @@
 import m from 'mithril';
 import { stream, on, combine } from 'flyd';
+import filter from 'flyd/module/filter';
+import { propEq, not, identity } from 'ramda';
+import { time, timerEnded, isRunning, startTimer, stopTimer } from '../../state/timer';
+
 import film from '../../images/film.png';
 import fights from '../../images/fights.png';
 
@@ -16,43 +20,26 @@ TickTock.loop = true;
 const Buzzer = new Audio(buzzer);
 const Airhorn = new Audio(airhorn);
 
-const time = stream(0);
-const isRunning = stream(false);
-const interval = stream(null);
+const keyEvents = stream();
+const plusEvents = filter(propEq('keyCode', 187), keyEvents);
 
-document.addEventListener('keyup', (e) => {
-  if (e.keyCode === 187) {
-    Airhorn.play();
-  }
-});
+on(() => {
+  Airhorn.play();
+}, plusEvents);
 
-const decrementTime = () => {
-  time(time() - 1);
-  m.redraw();
-};
+on(() => {
+  Buzzer.play();
+}, timerEnded);
 
-const stop = () => {
-    clearInterval(interval());
-    interval(null);
-    TickTock.pause();
-};
+on(() => {
+  Bell.play();
+  TickTock.play();
+}, filter(identity, isRunning));
 
-const done = () => {
-  if (interval()) {
-    Buzzer.play();
-    stop();
-  }
-};
+on(() => {
+  TickTock.pause();
+}, filter(not, isRunning));
 
-on((t) => { if (t <= 0) { done(); } }, time);
-on((shouldRun) => { if (!shouldRun) { stop(); } }, isRunning);
-combine((running, t) => {
-  if (running() && t() > 0 && !interval()) {
-    interval(setInterval(decrementTime, 1000));
-    Bell.play();
-    TickTock.play();
-  }
-}, [isRunning, time]);
 
 const padSeconds = s => s > 9 ? s : `0${s}`;
 
@@ -65,6 +52,14 @@ const SecondButton = (seconds) => m('button.minute-button', {
 }, `${seconds} Sekunde${seconds > 1 ? 'n' : ''}`);
 
 export default {
+  oninit: (vnode) => {
+    vnode.state.redraw = on(m.redraw, time);
+    document.addEventListener('keyup', keyEvents);
+  },
+  onbeforeremove: (vnode) => {
+    vnode.state.redraw.end(true);
+    document.removeEventListener('keyup', keyEvents);
+  },
   view: () => {
     const seconds = padSeconds(time());
 
@@ -82,8 +77,8 @@ export default {
       ]),
       m('.inputs', [
         m('.playpause', [
-          m('button.play', { onclick: () => { isRunning(true); }, }, m('.material-icons', 'play_arrow')),
-          m('button.pause', { onclick: () => { isRunning(false); time(0); }, }, m('.material-icons', 'stop')),
+          m('button.play', { onclick: startTimer, }, m('.material-icons', 'play_arrow')),
+          m('button.pause', { onclick: stopTimer, }, m('.material-icons', 'stop')),
         ]),
         m('.minute-buttons', [
           SecondButton(15), SecondButton(30),
