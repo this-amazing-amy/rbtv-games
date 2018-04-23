@@ -5,7 +5,11 @@ import { views, video, clearEstimates, newRandomVideo, updateWinnerScore } from 
 import { randomName, addPlayer, players, defaultPlayer } from '../../state/players';
 import Player from './player';
 
+import yeah from '../../sounds/yeah.mp3';
+
 import './index.less';
+
+const Yeah = new Audio(yeah);
 
 const videoLoading = stream(false);
 const errorFetching = stream(false);
@@ -22,11 +26,15 @@ const renderVideo = vid => m('iframe', {
   allow: 'autoplay; encrypted-media',
   allowfullscreen: true,
   onload: () => videoLoading(false),
+  onerror: () => {
+    console.log('ERROR');
+  },
 });
 
 const renderRevealButton = () => m('button.reveal-button', {
   tabindex: 2,
   onclick: () => {
+    Yeah.play();
     roundEnded(true);
     views() && updateWinnerScore(isGerman(), isMultiplicator());
   }
@@ -64,7 +72,7 @@ export default {
     vnode.state.redraw.end(true);
   },
   view: () => {
-    const shouldShowViews = views() && roundEnded();
+    const shouldShowViews = !!views() && roundEnded();
     const shouldShowRevealButton = (video() && views() && !roundEnded()) || errorFetching();
     const shouldShowVideo = video();
 
