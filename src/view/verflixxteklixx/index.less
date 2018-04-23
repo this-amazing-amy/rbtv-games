@@ -211,3 +211,33 @@ iframe {
 .player:hover .remove-player {
 	transform: translateX(100%);
 }
+
+.indicators {
+  align-self: flex-end;
+  margin-right: 10em;
+}
+
+.indicator__multi {
+  position: relative;
+  top: .5em;
+  padding: .6em .6em .6em 1.3em;
+  font-weight: bold;
+  font-size: 1.4rem;
+  color: white;
+  z-index: 1;
+
+	&:after {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		background-image: linear-gradient(-45deg, var(--purple2), var(--purple1));
+		border: 1px solid white;
+		transform: skew(-10deg);
+		z-index: -1;
+	}
+
+}
+

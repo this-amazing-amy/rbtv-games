@@ -15,6 +15,8 @@ export const video = stream('');
 export const views = filter(identity, video)
   .pipe(chain(v => fromPromise(fetchViewCount(v))));
 
+export const videoErrors = filter(v => isNaN(v), views);
+
 export const newRandomVideo = () => fetchRandomVideo().then(video);
 
 
@@ -45,19 +47,18 @@ const minimumDelta = compose(
 
 const winners = players => ffilter(pathEq(estimatePath, minimumDelta(players)), players);
 
-const score = (isGerman, isMultiplicator) => player => {
+const score = (isGerman, multiplicator) => player => {
     const isExactHit = path(estimatePath, player) === views();
     const german = isGerman ? 2 : 0;
-    const multiplicator = isMultiplicator ? 2 : 1;
     const fischkarte = path(fischkartePath, player) ? 2 : 1;
 
     return isExactHit
       ? views()
-      : 1 + german * multiplicator * fischkarte;
+      : (1 + german) * multiplicator * fischkarte;
 };
 
-export const updateWinnerScore = (isGerman, isMultiplicator) => {
-  const getScore = score(isGerman, isMultiplicator);
+export const updateWinnerScore = (isGerman, multiplicator) => {
+  const getScore = score(isGerman, multiplicator);
   winners(players()).forEach(winner => {
     updatePlayer(over(lensPath(scorePath), add(getScore(winner))), winner);
   });
