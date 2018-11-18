@@ -41,13 +41,13 @@ on(() => {
 }, filter(not, isRunning));
 
 
-const padSeconds = s => s > 9 ? s : `0${s}`;
+const padSeconds = s => (s > 9 ? s : `0${s}`);
 
-const MinuteButton = (minutes) => m('button.minute-button', {
+const MinuteButton = minutes => m('button.minute-button', {
   onclick: () => { time(minutes * 60); },
 }, `${minutes} Minute${minutes > 1 ? 'n' : ''}`);
 
-const SecondButton = (seconds) => m('button.minute-button', {
+const SecondButton = seconds => m('button.minute-button', {
   onclick: () => { time(seconds); },
 }, `${seconds} Sekunde${seconds > 1 ? 'n' : ''}`);
 
@@ -77,8 +77,8 @@ export default {
       ]),
       m('.inputs', [
         m('.playpause', [
-          m('button.play', { onclick: startTimer, }, m('.material-icons', 'play_arrow')),
-          m('button.pause', { onclick: stopTimer, }, m('.material-icons', 'stop')),
+          m('button.play', { onclick: startTimer }, m('.material-icons', 'play_arrow')),
+          m('button.pause', { onclick: stopTimer }, m('.material-icons', 'stop')),
         ]),
         m('.minute-buttons', [
           SecondButton(15), SecondButton(30),

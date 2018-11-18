@@ -4,7 +4,8 @@ import './style.less';
 const route = (id) => () => new Promise((resolve) => {
   import(`./${id}`)
     .then(x => x.default)
-    .then(resolve);
+    .then(resolve)
+    .catch(console.error);
 });
 
 const app = () => {
@@ -17,6 +18,9 @@ const app = () => {
     },
     '/verflixxteklixx': {
       onmatch: route('verflixxteklixx'),
+    },
+    '/nerdquiz': {
+      onmatch: route('nerdquiz'),
     },
   });
 };

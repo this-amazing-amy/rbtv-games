@@ -1,10 +1,11 @@
 import m from 'mithril';
-import { all, identity } from 'ramda';
+import { identity } from 'ramda';
 import { on, combine, stream } from 'flyd';
 import filter from 'flyd/module/filter';
 import { views, video, videoErrors, clearEstimates, newRandomVideo, updateWinnerScore } from '../../state/verflixxteklixx';
-import { randomName, addPlayer, players, defaultPlayer } from '../../state/players';
+import { players } from '../../state/players';
 import Player from './player';
+import AddPlayerButton from '../players/addPlayerButton';
 
 import yeah from '../../sounds/yeah.mp3';
 
@@ -35,7 +36,7 @@ const renderRevealButton = () => m('button.reveal-button', {
     Yeah.play();
     roundEnded(true);
     views() && updateWinnerScore(isGerman(), multiplicator());
-  }
+  },
 }, 'Auflösen');
 
 const renderNextRoundButton = () => m('button.next-round-button', {
@@ -57,18 +58,10 @@ const renderNextRoundButton = () => m('button.next-round-button', {
 
     isGerman(false);
     clearEstimates();
-  }
+  },
 }, 'Nächste Runde');
 
 const renderViews = views => m('span.views', views);
-const renderPlayer = player => m(Player, { player });
-
-const renderAddPlayerButton = () => m('button.add-player-button', {
-  onclick: (e) => {
-		e.preventDefault();
-		addPlayer(defaultPlayer());
-	},
-}, '+');
 
 const renderIndicators = () => m('.indicators', [
   multiplicator() > 1 && m('.indicator__multi', [
@@ -106,9 +99,9 @@ export default {
         shouldShowNextRoundButton && renderNextRoundButton(),
       ]),
       m('.players', [
-        players().map(renderPlayer),
+        players().map(player => m(Player, { player })),
       ]),
-      renderAddPlayerButton(),
+      m(AddPlayerButton),
     ]);
   },
 };

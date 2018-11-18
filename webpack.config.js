@@ -5,6 +5,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin')
 const DotenvWebpackPlugin = require('dotenv-webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const NodemonWebpackPlugin = require('nodemon-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -32,6 +33,10 @@ module.exports = {
       filename: 'service-worker.js',
       minify: true,
       staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+    }),
+    new NodemonWebpackPlugin({
+      script: 'server.js',
+      watch: './dist',
     }),
   ],
   module: {
