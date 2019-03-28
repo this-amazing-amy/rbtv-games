@@ -1,4 +1,5 @@
 import m from 'mithril';
+import { setNerdQuizScore } from '../../state/players';
 
 export default {
   view: ({ attrs: { player } }) => m('.player', {
@@ -6,6 +7,11 @@ export default {
   }, [
     m('span.player__name', player.name),
     m('span.player__key', String.fromCharCode(player.nerdquiz.keyCode)),
-    m('span.player__score', player.nerdquiz.score),
+    m('input.player__score', {
+      value: player.nerdquiz.score,
+      onchange: (e) => {
+        setNerdQuizScore(e.target.value, player);
+      },
+    }),
   ]),
 };

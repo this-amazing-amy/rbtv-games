@@ -21,25 +21,24 @@
 
     .category {
         width: 20%;
+        height: 600px;
+        display: grid;
     }
 
     .category h2 {
+        margin: 0;
         text-align: center;
         text-transform: uppercase;
         text-shadow: 0 5px rgba(0,0,0,.4);
     }
 
-    .category ul {
-        padding: 0;
-        margin: 0;
-    }
-
     .question {
         font-size: 1.5em;
-        padding: .5em 2em;
         list-style-type: none;
         text-align: center;
         cursor: pointer;
+        display: grid;
+        align-items: center;
     }
 
     .question--answered {
@@ -65,6 +64,7 @@
     .answer-controls {
         position: absolute;
         bottom: 1em;
+        display: flex;
 
         button {
             background: white;
@@ -103,8 +103,13 @@
     }
 
     .player__score {
-        font-size: 1.5em;
-        text-shadow: 0 2px #ddd;
+      width: 300px;
+      background: none;
+      font-size: 1.5em;
+      color: white;
+      text-align: center;
+      border: none;
+      text-shadow: 0 2px #ddd;
     }
 
     .player__key {
@@ -192,88 +197,89 @@
     }
 
     .category:nth-child(1) {
-        .question:nth-child(1) {
+        .question:nth-child(2) {
             background-color: #D3520F;
         }
-        .question:nth-child(2) {
+        .question:nth-child(3) {
             background-color: darken(#D3520F, 5%);
         }
-        .question:nth-child(3) {
+        .question:nth-child(4) {
             background-color: darken(#D3520F, 10%);
         }
-        .question:nth-child(4) {
+        .question:nth-child(5) {
             background-color: darken(#D3520F, 15%);
         }
-        .question:nth-child(5) {
+        .question:nth-child(6) {
             background-color: darken(#D3520F, 20%);
         }
     }
     .category:nth-child(2) {
-        .question:nth-child(1) {
+        .question:nth-child(2) {
             background-color: #00B8E9;
         }
-        .question:nth-child(2) {
+        .question:nth-child(3) {
             background-color: darken(#00B8E9, 5%);
         }
-        .question:nth-child(3) {
+        .question:nth-child(4) {
             background-color: darken(#00B8E9, 10%);
         }
-        .question:nth-child(4) {
+        .question:nth-child(5) {
             background-color: darken(#00B8E9, 15%);
         }
-        .question:nth-child(5) {
+        .question:nth-child(6) {
             background-color: darken(#00B8E9, 20%);
         }
     }
     .category:nth-child(3) {
-        .question:nth-child(1) {
+        .question:nth-child(2) {
             background-color: #E50051;
         }
-        .question:nth-child(2) {
+        .question:nth-child(3) {
             background-color: darken(#E50051, 5%);
         }
-        .question:nth-child(3) {
+        .question:nth-child(4) {
             background-color: darken(#E50051, 10%);
         }
-        .question:nth-child(4) {
+        .question:nth-child(5) {
             background-color: darken(#E50051, 15%);
         }
-        .question:nth-child(5) {
+        .question:nth-child(6) {
             background-color: darken(#E50051, 20%);
         }
     }
     .category:nth-child(4) {
-        .question:nth-child(1) {
+        .question:nth-child(2) {
             background-color: #00375F;
         }
-        .question:nth-child(2) {
+        .question:nth-child(3) {
             background-color: darken(#00375F, 5%);
         }
-        .question:nth-child(3) {
+        .question:nth-child(4) {
             background-color: darken(#00375F, 10%);
         }
-        .question:nth-child(4) {
+        .question:nth-child(5) {
             background-color: darken(#00375F, 15%);
         }
-        .question:nth-child(5) {
+        .question:nth-child(6) {
             background-color: darken(#00375F, 20%);
         }
     }
     .category:nth-child(5) {
-        .question:nth-child(1) {
+        .question:nth-child(2) {
             background-color: #6FB532;
         }
-        .question:nth-child(2) {
+        .question:nth-child(3) {
             background-color: darken(#6FB532, 5%);
         }
-        .question:nth-child(3) {
+        .question:nth-child(4) {
             background-color: darken(#6FB532, 10%);
         }
-        .question:nth-child(4) {
+        .question:nth-child(5) {
             background-color: darken(#6FB532, 15%);
         }
-        .question:nth-child(5) {
+        .question:nth-child(6) {
             background-color: darken(#6FB532, 20%);
         }
     }
 }
+

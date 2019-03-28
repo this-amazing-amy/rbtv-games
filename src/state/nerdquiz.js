@@ -2,7 +2,7 @@ import { update, lensPath, add, path, map, isNil, and, assoc, filter, isEmpty, c
 import { on, stream, combine } from 'flyd';
 import ffilter from 'flyd/module/filter';
 
-import { players, answeringPlayer, updatePlayer, resetPlayerAnswering, resetScores } from './players';
+import { addNerdQuizScore, players, answeringPlayer, updatePlayer, resetPlayerAnswering, resetScores } from './players';
 
 const emptyCategory = () => ({
   title: '???',
@@ -44,7 +44,7 @@ export const markQuestionAsDone = (categoryIndex, questionIndex) => {
 export const answer = (deltaScore) => {
   const p = answeringPlayer();
   if (!p) return;
-  updatePlayer(over(lensPath(['nerdquiz', 'score']), add(deltaScore)), p);
+  addNerdQuizScore(deltaScore, p);
   const q = currentQuestion();
   markQuestionAsDone(q.categoryIndex, q.questionIndex);
   currentQuestion(null);
@@ -61,6 +61,12 @@ export const answerCorrect = () => {
   const q = currentQuestion();
   if (!q) return;
   answer(q.score);
+};
+
+export const cancelAnswer = () => {
+  const q = currentQuestion();
+  if (!q) return;
+  answer(0);
 };
 
 export const isReadyToPlay = combine((q, p) => and(
