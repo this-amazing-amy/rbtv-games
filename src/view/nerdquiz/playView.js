@@ -3,7 +3,7 @@ import m from 'mithril';
 import PlayerView from './playerView';
 
 import { players, setPlayerAnswering, answeringPlayer } from '../../state/players';
-import { multiplicator, toggleDouble, startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/nerdquiz';
+import { isPlaying, toggleFinale, multiplicator, toggleDouble, startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/nerdquiz';
 
 const indexToSimpleScore = (i) => {
   switch (i) {
@@ -75,6 +75,14 @@ export default {
           m('button', {
             onclick: toggleDouble,
           }, 'x2'),
+          m('button', {
+            onclick: toggleFinale,
+          }, '🏁'),
+          m('button', {
+            onclick: () => {
+              isPlaying(false);
+            },
+          }, '✏️'),
         ]),
         m('.questions', [quiz.map(renderCategory)]),
         m('.players', players().map(player => m(PlayerView, { player }))),

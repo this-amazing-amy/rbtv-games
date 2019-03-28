@@ -1,6 +1,6 @@
 import m from 'mithril';
 
-import { isReadyToPlay, changeCategoryTitle, isPlaying } from '../../state/nerdquiz';
+import { resetGame, isReadyToPlay, changeCategoryTitle, isPlaying } from '../../state/nerdquiz';
 import PlayerForm from './playerForm';
 import AddPlayerButton from '../players/addPlayerButton';
 import { players } from '../../state/players';
@@ -19,6 +19,13 @@ export default {
         isPlaying(true);
       },
     }, 'GO!'),
+    m('button.button', {
+      onclick: () => {
+        if (window.confirm('O rly?')) {
+          resetGame();
+        }
+      },
+    }, 'RESET'),
     m('.players', [
       ...players().map(player => m(PlayerForm, { player })),
       m(AddPlayerButton),

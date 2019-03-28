@@ -3,14 +3,16 @@ import { on, stream, combine } from 'flyd';
 import ffilter from 'flyd/module/filter';
 
 import { addNerdQuizScore, players, answeringPlayer, updatePlayer, resetPlayerAnswering, resetScores } from './players';
+import { time } from './timer';
 
 const emptyCategory = () => ({
   title: '???',
   questions: range(1, 6).map(always(false)),
 });
 
-const quizFromLocalStorage = JSON.parse(localStorage.quiz || false)
-    || range(1, 6).map(emptyCategory);
+const initialQuiz = range(1, 6).map(emptyCategory);
+
+const quizFromLocalStorage = JSON.parse(localStorage.quiz || false) || initialQuiz;
 
 export const quiz = stream(quizFromLocalStorage);
 on((q) => {
@@ -24,15 +26,18 @@ export const toggleDouble = () => {
 };
 
 export const isPlaying = stream(false);
+export const isFinale = stream(false);
 
-const resetGame = () => {
-  resetPlayerAnswering();
-  resetScores();
+export const toggleFinale = () => {
+  time(90);
+  isFinale(!isFinale());
 };
 
-on(() => {
-  resetGame();
-}, ffilter(Boolean, isPlaying));
+export const resetGame = () => {
+  resetPlayerAnswering();
+  resetScores();
+  quiz(initialQuiz);
+};
 
 export const currentQuestion = stream(null);
 
