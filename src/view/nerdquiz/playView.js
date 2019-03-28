@@ -1,10 +1,9 @@
 import m from 'mithril';
-import { isEmpty } from 'ramda';
 
 import PlayerView from './playerView';
 
 import { players, setPlayerAnswering, answeringPlayer } from '../../state/players';
-import { startCurrentQuestion, currentQuestion, answerCorrect, answerWrong } from '../../state/nerdquiz';
+import { startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/nerdquiz';
 
 const indexToScore = (i) => {
   switch (i) {
@@ -38,11 +37,11 @@ const startAnswer = (category, categoryIndex, questionIndex, score) => () => {
 
 const renderCategory = (category, i) => m('.category', [
   m('h2', category.title),
-  m('ul', category.questions.map((q, j) => (
-    m('li.question', {
+  category.questions.map((q, j) => (
+    m('.question', {
       class: q ? 'question--answered' : 'question--unanswered',
       onclick: startAnswer(category, i, j, indexToScore(j)),
-    }, indexToScore(j))))),
+    }, indexToScore(j)))),
 ]);
 
 export default {
@@ -60,6 +59,9 @@ export default {
               m('button.button--wrong', {
                 onclick: answerWrong,
               }, '❌'),
+              m('button.button--correct', {
+                onclick: cancelAnswer,
+              }, '🚮'),
             ]),
         ]),
         m('.players', players().map(player => m(PlayerView, { player }))),

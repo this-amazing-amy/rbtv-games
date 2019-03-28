@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { find, head, path, assocPath, append, lensIndex, findIndex, and, propEq, both, isNil, has, over, assoc, compose, complement } from 'ramda';
+import { add, lensPath, find, head, path, assocPath, append, lensIndex, findIndex, and, propEq, both, isNil, has, over, assoc, compose, complement } from 'ramda';
 import { on, stream } from 'flyd';
 import ffilter from 'flyd/module/filter';
 
@@ -47,6 +47,14 @@ export const resetPlayerAnswering = () => {
   players().map((player) => {
     updatePlayer(assocPath(['nerdquiz', 'isAnswering'], false), player);
   });
+};
+
+export const setNerdQuizScore = (score, player) => {
+  updatePlayer(assocPath(['nerdquiz', 'score'], score), player);
+};
+
+export const addNerdQuizScore = (deltaScore, player) => {
+  updatePlayer(over(lensPath(['nerdquiz', 'score']), add(deltaScore)), player);
 };
 
 export const resetScores = (game) => {
