@@ -3,31 +3,41 @@ import { on, stream, combine } from 'flyd';
 import ffilter from 'flyd/module/filter';
 
 import { addNerdQuizScore, players, answeringPlayer, updatePlayer, resetPlayerAnswering, resetScores } from './players';
+import { time } from './timer';
 
 const emptyCategory = () => ({
   title: '???',
   questions: range(1, 6).map(always(false)),
 });
 
-const quizFromLocalStorage = JSON.parse(localStorage.quiz || false)
-    || range(1, 6).map(emptyCategory);
+const initialQuiz = range(1, 6).map(emptyCategory);
+
+const quizFromLocalStorage = JSON.parse(localStorage.quiz || false) || initialQuiz;
 
 export const quiz = stream(quizFromLocalStorage);
-
 on((q) => {
   localStorage.quiz = JSON.stringify(q);
 }, quiz);
 
-export const isPlaying = stream(false);
 
-const resetGame = () => {
-  resetPlayerAnswering();
-  resetScores();
+export const multiplicator = stream(1);
+export const toggleDouble = () => {
+  multiplicator(multiplicator() === 2 ? 1 : 2);
 };
 
-on(() => {
-  resetGame();
-}, ffilter(Boolean, isPlaying));
+export const isPlaying = stream(false);
+export const isFinale = stream(false);
+
+export const toggleFinale = () => {
+  time(90);
+  isFinale(!isFinale());
+};
+
+export const resetGame = () => {
+  resetPlayerAnswering();
+  resetScores();
+  quiz(initialQuiz);
+};
 
 export const currentQuestion = stream(null);
 
@@ -44,10 +54,10 @@ export const markQuestionAsDone = (categoryIndex, questionIndex) => {
 export const answer = (deltaScore) => {
   const p = answeringPlayer();
   if (!p) return;
-  addNerdQuizScore(deltaScore, p);
   const q = currentQuestion();
-  markQuestionAsDone(q.categoryIndex, q.questionIndex);
   currentQuestion(null);
+  addNerdQuizScore(deltaScore, p);
+  markQuestionAsDone(q.categoryIndex, q.questionIndex);
   resetPlayerAnswering();
 };
 

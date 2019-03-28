@@ -1,11 +1,12 @@
 import m from 'mithril';
 import { stream } from 'flyd';
 
-import { quiz, isPlaying } from '../../state/nerdquiz';
+import { quiz, isFinale, isPlaying } from '../../state/nerdquiz';
 
 import './index.less';
 import FormView from './formView';
 import PlayView from './playView';
+import FinaleView from './finaleView';
 
 const keyEvents = stream();
 
@@ -18,9 +19,11 @@ export default {
   },
   view: () => m('.subapp.nerdquiz', [
     m('.board', [
-      isPlaying()
-        ? m(PlayView, { quiz: quiz() })
-        : m(FormView, { quiz: quiz() }),
+      isFinale()
+        ? m(FinaleView)
+        : isPlaying()
+          ? m(PlayView, { quiz: quiz() })
+          : m(FormView, { quiz: quiz() }),
     ]),
 
   ]),

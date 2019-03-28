@@ -1,11 +1,28 @@
 import m from 'mithril';
+import filter from 'flyd/module/filter';
+import { on } from 'flyd'
 
 import PlayerView from './playerView';
 
 import { players, setPlayerAnswering, answeringPlayer } from '../../state/players';
-import { startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/nerdquiz';
+import { isPlaying, toggleFinale, multiplicator, toggleDouble, startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/nerdquiz';
+import intro from '../../sounds/nerdquizintro.mp3';
+import buzz from '../../sounds/nerdquizbuzz.mp3';
 
-const indexToScore = (i) => {
+const Intro = new Audio(intro);
+const Buzz = new Audio(buzz);
+
+on(() => {
+  Intro.play();
+}, filter(Boolean, isPlaying));
+
+on(() => {
+  if (currentQuestion()) {
+    Buzz.play();
+  }
+}, filter(Boolean, answeringPlayer));
+
+const indexToSimpleScore = (i) => {
   switch (i) {
     case 0: return 100;
     case 1: return 200;
@@ -14,6 +31,10 @@ const indexToScore = (i) => {
     case 4: return 1000;
     default: return 0;
   }
+};
+
+const indexToScore = (i) => {
+  return multiplicator() * indexToSimpleScore(i);
 };
 
 const addKeyListener = () => {
@@ -45,7 +66,7 @@ const renderCategory = (category, i) => m('.category', [
 ]);
 
 export default {
-  view: ({ attrs: { quiz } }) => [
+  view: ({ attrs: { quiz } }) => m('.play-view', [
     currentQuestion()
       ? [
         m(`.current-question current-question--${currentQuestion().categoryIndex}`, [
@@ -67,8 +88,21 @@ export default {
         m('.players', players().map(player => m(PlayerView, { player }))),
       ]
       : [
+        m('.side-controls', [
+          m('button', {
+            onclick: toggleDouble,
+          }, 'x2'),
+          m('button', {
+            onclick: toggleFinale,
+          }, '🏁'),
+          m('button', {
+            onclick: () => {
+              isPlaying(false);
+            },
+          }, '✏️'),
+        ]),
         m('.questions', [quiz.map(renderCategory)]),
         m('.players', players().map(player => m(PlayerView, { player }))),
       ],
-  ],
+  ]),
 };

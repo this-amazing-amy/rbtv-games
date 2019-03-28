@@ -8,8 +8,30 @@
     font-size: 2em;
     font-weight: bold;
 
+    .play-view .board {
+      position: relative;
+    }
+
     .board {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
         margin-bottom: 10vh;
+    }
+
+    .side-controls {
+        position: absolute;
+        left: 1em;
+        top: 50%;
+        display: grid;
+        flex-flow: column nowrap;
+        grid-gap: .5em;
+        transform: translateY(-50%);
+
+        button {
+          padding: 1em;
+          cursor: pointer;
+        }
     }
 
     .questions {
@@ -112,24 +134,27 @@
       text-shadow: 0 2px #ddd;
     }
 
-    .player__key {
-        position: absolute;
-        top: 25%;
-        right: -2.5em;
+    button, .player__key {
         font-size: .7em;
         font-weight: normal;
         padding: .2em .4em;
         background: white;
         color: black;
         box-shadow: 0 8px #ddd;
+        cursor: pointer;
+        border: none;
     }
 
-    .button {
-        border: none;
-        background: white;
-        box-shadow: 0 .3em #ddd;
-        padding: .2em;
-        cursor: pointer;
+    button:disabled {
+      background: #bbb;
+      color: #eee;
+      box-shadow: 0 8px #aaa;
+    }
+
+    .player__key {
+        position: absolute;
+        top: 25%;
+        right: 0;
     }
 
     .player--answering {
@@ -170,6 +195,26 @@
             transform: translate(0, -50%);
             margin: 0;
         }
+    }
+
+    .finale-view {
+      display: grid;
+      flex-flow: column nowrap;
+      grid-gap: 1em;
+      text-align: center;
+    }
+
+    .time__seconds {
+      background: none;
+      border: none;
+      font-size: 3em;
+      font-weight: bold;
+      text-align: center;
+      color: white;
+    }
+
+    .playpause {
+      margin-bottom: .5em;
     }
 
     .categories-input-headline {
