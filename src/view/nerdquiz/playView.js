@@ -3,9 +3,9 @@ import m from 'mithril';
 import PlayerView from './playerView';
 
 import { players, setPlayerAnswering, answeringPlayer } from '../../state/players';
-import { startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/nerdquiz';
+import { multiplicator, toggleDouble, startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/nerdquiz';
 
-const indexToScore = (i) => {
+const indexToSimpleScore = (i) => {
   switch (i) {
     case 0: return 100;
     case 1: return 200;
@@ -14,6 +14,10 @@ const indexToScore = (i) => {
     case 4: return 1000;
     default: return 0;
   }
+};
+
+const indexToScore = (i) => {
+  return multiplicator() * indexToSimpleScore(i);
 };
 
 const addKeyListener = () => {
@@ -45,7 +49,7 @@ const renderCategory = (category, i) => m('.category', [
 ]);
 
 export default {
-  view: ({ attrs: { quiz } }) => [
+  view: ({ attrs: { quiz } }) => m('.play-view', [
     currentQuestion()
       ? [
         m(`.current-question current-question--${currentQuestion().categoryIndex}`, [
@@ -67,8 +71,13 @@ export default {
         m('.players', players().map(player => m(PlayerView, { player }))),
       ]
       : [
+        m('.side-controls', [
+          m('button', {
+            onclick: toggleDouble,
+          }, 'x2'),
+        ]),
         m('.questions', [quiz.map(renderCategory)]),
         m('.players', players().map(player => m(PlayerView, { player }))),
       ],
-  ],
+  ]),
 };

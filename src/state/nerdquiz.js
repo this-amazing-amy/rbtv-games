@@ -13,10 +13,15 @@ const quizFromLocalStorage = JSON.parse(localStorage.quiz || false)
     || range(1, 6).map(emptyCategory);
 
 export const quiz = stream(quizFromLocalStorage);
-
 on((q) => {
   localStorage.quiz = JSON.stringify(q);
 }, quiz);
+
+
+export const multiplicator = stream(1);
+export const toggleDouble = () => {
+  multiplicator(multiplicator() === 2 ? 1 : 2);
+};
 
 export const isPlaying = stream(false);
 

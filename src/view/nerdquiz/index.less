@@ -8,8 +8,26 @@
     font-size: 2em;
     font-weight: bold;
 
+    .play-view .board {
+      position: relative;
+    }
+
     .board {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
         margin-bottom: 10vh;
+    }
+
+    .side-controls {
+        position: absolute;
+        left: 1em;
+        top: 50%;
+
+        button {
+          padding: 1em;
+          cursor: pointer;
+        }
     }
 
     .questions {
