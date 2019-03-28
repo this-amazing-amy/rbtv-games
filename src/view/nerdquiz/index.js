@@ -11,7 +11,7 @@ import FinaleView from './finaleView';
 const keyEvents = stream();
 
 export default {
-  oninit: (vnode) => t
+  oninit: (vnode) => {
     document.addEventListener('keyup', keyEvents);
   },
   onbeforeremove: (vnode) => {

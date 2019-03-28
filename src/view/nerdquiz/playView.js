@@ -1,9 +1,26 @@
 import m from 'mithril';
+import filter from 'flyd/module/filter';
+import { on } from 'flyd'
 
 import PlayerView from './playerView';
 
 import { players, setPlayerAnswering, answeringPlayer } from '../../state/players';
 import { isPlaying, toggleFinale, multiplicator, toggleDouble, startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/nerdquiz';
+import intro from '../../sounds/nerdquizintro.mp3';
+import buzz from '../../sounds/nerdquizbuzz.mp3';
+
+const Intro = new Audio(intro);
+const Buzz = new Audio(buzz);
+
+on(() => {
+  Intro.play();
+}, filter(Boolean, isPlaying));
+
+on(() => {
+  if (currentQuestion()) {
+    Buzz.play();
+  }
+}, filter(Boolean, answeringPlayer));
 
 const indexToSimpleScore = (i) => {
   switch (i) {

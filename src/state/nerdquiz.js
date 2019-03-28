@@ -54,10 +54,10 @@ export const markQuestionAsDone = (categoryIndex, questionIndex) => {
 export const answer = (deltaScore) => {
   const p = answeringPlayer();
   if (!p) return;
-  addNerdQuizScore(deltaScore, p);
   const q = currentQuestion();
-  markQuestionAsDone(q.categoryIndex, q.questionIndex);
   currentQuestion(null);
+  addNerdQuizScore(deltaScore, p);
+  markQuestionAsDone(q.categoryIndex, q.questionIndex);
   resetPlayerAnswering();
 };
 
