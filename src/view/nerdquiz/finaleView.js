@@ -3,12 +3,17 @@ import { stream, on, combine } from 'flyd';
 import filter from 'flyd/module/filter';
 import { propEq, not, identity } from 'ramda';
 import { toggleFinale } from '../../state/nerdquiz';
+import { resetPlayerAnswering, setPlayerAnswering, players } from '../../state/players';
 import { time, timerEnded, isRunning, startTimer, stopTimer } from '../../state/timer';
+
+import PlayerView from './playerView';
 
 import bell from '../../sounds/bell.mp3';
 import ticktock from '../../sounds/nerdquizticktock.mp3';
 import buzzer from '../../sounds/buzzer.mp3';
+import buzz from '../../sounds/nerdquizbuzz.mp3';
 
+const Buzz = new Audio(buzz);
 const Bell = new Audio(bell);
 const TickTock = new Audio(ticktock);
 TickTock.loop = true;
@@ -38,6 +43,24 @@ const SecondButton = seconds => m('button.minute-button', {
   onclick: () => { time(seconds); },
 }, `${seconds} Sekunde${seconds > 1 ? 'n' : ''}`);
 
+const addKeyListener = () => {
+  const answer = (e) => {
+    players().forEach((player) => {
+      if (e.keyCode === player.nerdquiz.keyCode) {
+        Buzz.play();
+        setPlayerAnswering(player);
+        m.redraw();
+        setTimeout(() => {
+          resetPlayerAnswering();
+        }, 1000);
+      }
+    });
+  };
+
+  document.addEventListener('keydown', answer);
+};
+
+
 export default {
   oninit: (vnode) => {
     vnode.state.redraw = on(m.redraw, time);
@@ -60,12 +83,14 @@ export default {
             onclick: () => {
               time(90);
               startTimer();
+              addKeyListener();
             },
           }, m('.material-icons', 'play_arrow')),
           m('button.pause', { onclick: stopTimer }, m('.material-icons', 'stop')),
         ]),
         m('button.back', { onclick: toggleFinale }, m('.material-icons', 'arrow_back')),
       ]),
+      m('.players', players().map(player => m(PlayerView, { player }))),
     ]);
   },
 };
