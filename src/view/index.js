@@ -22,6 +22,9 @@ const app = () => {
     '/nerdquiz': {
       onmatch: route('nerdquiz'),
     },
+    '/fuereinehandvollbuddeln': {
+      onmatch: route('fuereinehandvollbuddeln'),
+    },
   });
 };
 

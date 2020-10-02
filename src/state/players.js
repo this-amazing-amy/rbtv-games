@@ -6,7 +6,7 @@ import ffilter from 'flyd/module/filter';
 export const randomName = () => {
   const fragments = [
     'Willi', 'Wonka', 'Lillo', 'Lollo', 'Paulinger', 'Lars', 'Florentin', 'Paulsen', 'Will', 'Bronko', 'Wonko',
-    'La fuente', 'de la Cortullo', 'Larry', 'Lobster',
+    'La fuente', 'de la Cortullo', 'Larry', 'Lobster', 'Schmal', 'Breit',
   ];
   const randomFragment = () => fragments[Math.floor(Math.random() * fragments.length)];
   return `${randomFragment()} ${randomFragment()}`;
@@ -34,6 +34,11 @@ export const updatePlayerName = (name, player) => {
   updatePlayer(assoc('name', name || randomName()), player);
 };
 
+export const updatePlayerFEHBKeyCode = (keyCode, player) => {
+  if (player.keyCode === keyCode) return;
+  updatePlayer(assocPath(['fehb', 'keyCode'], keyCode), player);
+};
+
 export const updatePlayerKeyCode = (keyCode, player) => {
   if (player.keyCode === keyCode) return;
   updatePlayer(assocPath(['nerdquiz', 'keyCode'], keyCode), player);
@@ -43,9 +48,19 @@ export const setPlayerAnswering = (player) => {
   updatePlayer(assocPath(['nerdquiz', 'isAnswering'], true), player);
 };
 
+export const setPlayerFEHBAnswering = (player) => {
+  updatePlayer(assocPath(['fehb', 'isAnswering'], true), player);
+};
+
 export const resetPlayerAnswering = () => {
   players().map((player) => {
     updatePlayer(assocPath(['nerdquiz', 'isAnswering'], false), player);
+  });
+};
+
+export const resetPlayerFEHBAnswering = () => {
+  players().map((player) => {
+    updatePlayer(assocPath(['fehb', 'isAnswering'], false), player);
   });
 };
 
@@ -57,6 +72,14 @@ export const addNerdQuizScore = (deltaScore, player) => {
   updatePlayer(over(lensPath(['nerdquiz', 'score']), add(deltaScore)), player);
 };
 
+export const setFEHBScore = (score, player) => {
+  updatePlayer(assocPath(['fehb', 'score'], score), player);
+};
+
+export const addFEHBScore = (deltaScore, player) => {
+  updatePlayer(over(lensPath(['fehb', 'score']), add(deltaScore)), player);
+};
+
 export const resetScores = (game) => {
   if (!(game in ['nerdquiz', 'verflixxteklixx'])) return;
   players().map((player) => {
@@ -65,6 +88,8 @@ export const resetScores = (game) => {
 };
 
 export const answeringPlayer = players.map(find(path(['nerdquiz', 'isAnswering'])));
+
+export const fehbAnsweringPlayer = players.map(find(path(['fehb', 'isAnswering'])));
 
 export const removePlayer = (player) => {
   const isPlayer = and(
@@ -85,6 +110,11 @@ export const defaultPlayer = () => ({
     fischkarte: false,
   },
   nerdquiz: {
+    score: 0,
+    keyCode: false,
+    isAnswering: false,
+  },
+  fehb: {
     score: 0,
     keyCode: false,
     isAnswering: false,
