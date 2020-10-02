@@ -44,7 +44,7 @@
     "html-webpack-plugin": "^2.30.1",
     "less": "^3.9.0",
     "less-loader": "^4.0.5",
-    "mithril": "^1.1.6",
+    "mithril": "^1.1.7",
     "nodemon-webpack-plugin": "^4.0.8",
     "ramda": "^0.25.0",
     "socket.io": "^2.1.1",
