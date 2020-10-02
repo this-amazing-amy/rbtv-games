@@ -3436,14 +3436,14 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.4.tgz#2256bde14d3632958c465ebc96dc467ca07a29fb"
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
-gun@^0.9.94:
-  version "0.9.9999991"
-  resolved "https://registry.yarnpkg.com/gun/-/gun-0.9.9999991.tgz#d0d0e3230992dbd2306bbfe6372bb3a57c3a3ffa"
-  integrity sha512-tH29XmVl5PPJp2wKEaIKrT5OQhqrPAzAzfYRuKjBIubDqQQPs7SIa7EplOY/K1j7L9Rex5zPAyEBZFj+lz0y+Q==
+gun@^0.2019.416:
+  version "0.2019.416"
+  resolved "https://registry.yarnpkg.com/gun/-/gun-0.2019.416.tgz#429a630b4fdaf0c1926a77b0d4d2e7f9e978cf1e"
+  integrity sha512-1ybmFOehH/NcwGL9heOboxp8UFKTZ+0/LiBvKvpfk9Lx3P/JsxN5V3rUzzbh0tg+gSvoxbvjJ/Hmk1D8g1zXQQ==
   dependencies:
-    ws "~>5.2.0"
+    ws "~>6.2.1"
   optionalDependencies:
-    node-webcrypto-ossl "^1.0.39"
+    node-webcrypto-ossl "^1.0.43"
     text-encoding "^0.7.0"
 
 har-schema@^2.0.0:
@@ -4927,7 +4927,7 @@ node-rest-client@^1.5.1:
     debug "~2.2.0"
     xml2js ">=0.2.4"
 
-node-webcrypto-ossl@^1.0.39:
+node-webcrypto-ossl@^1.0.43:
   version "1.0.49"
   resolved "https://registry.yarnpkg.com/node-webcrypto-ossl/-/node-webcrypto-ossl-1.0.49.tgz#28061e962a19e197fd793baf4fa10ff814de16d7"
   integrity sha512-Zs73PeTWoUXUFicvAaxZC6ZyVCuq1Eg/Q4rYqiWyBY4eWIbZPFiRIi/KRM0A9GVKBPRNraaXsVmRAC83jEQ6nw==
@@ -7644,10 +7644,10 @@ ws@~6.1.0:
   dependencies:
     async-limiter "~1.0.0"
 
-ws@~>5.2.0:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-5.2.2.tgz#dffef14866b8e8dc9133582514d1befaf96e980f"
-  integrity sha512-jaHFD6PFv6UgoIVda6qZllptQsMlDEJkTQcybzzXDYM1XO9Y8em691FGMPmM46WGyLU4z9KMgQN+qrux/nhlHA==
+ws@~>6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-6.2.1.tgz#442fdf0a47ed64f59b6a5d8ff130f4748ed524fb"
+  integrity sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
   dependencies:
     async-limiter "~1.0.0"
 
