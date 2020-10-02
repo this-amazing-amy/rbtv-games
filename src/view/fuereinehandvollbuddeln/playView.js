@@ -3,7 +3,7 @@ import m from 'mithril';
 import PlayerView from './playerView';
 
 import { players, setPlayerFEHBAnswering, fehbAnsweringPlayer } from '../../state/players';
-import { isPlaying, toggleFinale, multiplicator, toggleDouble, startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/fehb';
+import { isPlaying, toggleFinale, multiplicator, startCurrentQuestion, currentQuestion, answerCorrect, answerWrong, cancelAnswer } from '../../state/fehb';
 
 const indexToSimpleScore = (i) => {
   switch (i) {

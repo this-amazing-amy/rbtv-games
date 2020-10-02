@@ -1,7 +1,7 @@
 import { update, lensPath, path, map, isNil, and, assoc, filter, isEmpty, compose, propEq, over, range, always, lensIndex } from 'ramda';
 import { on, stream, combine } from 'flyd';
 
-import { addFEHBScore, players, answeringPlayer, resetPlayerFEHBAnswering, resetScores } from './players';
+import { addFEHBScore, players, fehbAnsweringPlayer, resetPlayerFEHBAnswering, resetScores } from './players';
 import { time } from './timer';
 
 const emptyCategory = () => ({
@@ -51,7 +51,7 @@ export const markQuestionAsDone = (categoryIndex, questionIndex) => {
 };
 
 export const answer = (deltaScore) => {
-  const p = answeringPlayer();
+  const p = fehbAnsweringPlayer();
   if (!p) return;
   const q = currentQuestion();
   currentQuestion(null);
